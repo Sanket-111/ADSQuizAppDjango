@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Course Quizzes </title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<!-- Bootstrap JS -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <style>
+    #mainclass
+    {
+        height: auto;
+        width: 500px;
+        background-color:whitesmoke;
+        position: absolute;
+        transform: translate(-50%,-50%);
+        top: 50%;
+        left: 55%;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255,255,255,0.1);
+        box-shadow: 0 0 40px rgba(8,7,16,0.6);
+        padding: 10px 15px;
+    }
+    .clg{
+      position: center;
+      color:red;
+      border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    padding: 10px 15px;
+    }
+    </style>
+</head>
+<body>
+    <div class="clg">
+        <h1><b><i>Walchand College Of Engineering , Sangli </i></b></h1>
+        </div>
+    <div id="mainclass">
+
+        <form id="myForm" action="" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="name" id="name" val="1">
+            
+          
+	<div class="container mt-5">
+		<h2 class="text-center mb-5">Course Quizzes</h2>
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th>Quiz Title</th>
+					<th>Action</th>
+                    <th>Marks</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for quiz in records %}
+				<tr>
+					<td>{{ quiz.0 }}</td>
+					{% if quiz.1 == 0 %}
+					<td><button type="button" id="{{ quiz.0 }}" onclick="startQuiz('{{quiz.0}}')" class="btn btn-primary">Start Quiz</button></td>
+                    {% else %}
+                    <td><button type="button" id="{{ quiz.0 }}" disabled class="btn btn-secondary">Quiz Not Available</button></td>
+                    {% endif %}
+                    <td>{{ quiz.1 }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+    </div>
+    
+      </form>
+	<script>
+		function startQuiz(id) {
+            document.getElementById("name").value=id;
+            console.log("Starting quiz with ID: " + id);
+            document.getElementById('myForm').submit();
+			
+            
+		}
+	</script>
+
+</body>
+</html>

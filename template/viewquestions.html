@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>WCE-MIS Student Home</title>
+	<!-- Include Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<style>
+    *{
+      padding:0;
+      margin:0;
+      font-family:arial;
+    }
+    body{
+      background-repeat: no-repeat;
+        background-color: aqua;
+      width: 100%;
+      height: auto;
+      background-attachment: fixed; 
+      background-size: cover;
+    }
+    #mainclass
+    {
+        height: auto;
+        width: auto;
+        background-color:whitesmoke;
+        position: absolute;
+        transform: translate(-50%,-50%);
+        top: 57%;
+        left: 55%;
+        border-radius: 10px;
+        backdrop-filter: blur(10px);
+        border: 2px solid rgba(255,255,255,0.1);
+        box-shadow: 0 0 40px rgba(8,7,16,0.6);
+        padding: 10px 15px;
+    }
+    #sidebar{
+      position:fixed;
+      width:200px;
+      height:100%;
+      background-color:black;
+      transition:.2s;
+      left:-200px;
+    }
+    #sidebar.active{
+      left:0px;
+    }
+    #sidebar ul li{
+    color: white;
+      font-size:16px;
+      padding:10px 5px;
+      border-bottom:1px solid #fff;
+    }
+     #sidebar ul li:hover{
+         background-color: rgba(230,230,230,.9);
+         color:white;
+    }
+    #sidebar #togglebtn {
+      position:absolute;
+      left:230px;
+      top:5px;
+      cursor:pointer
+    }
+    #sidebar #togglebtn span{
+      display:block;
+      background-color:#000;
+      width:30px;
+      height:5px;
+      margin:5px 0px;
+      
+    }
+    #mainclass
+{
+    height: 100%;
+    width: 80%;
+    background-color:whitesmoke;
+    position: absolute;
+    transform: translate(-50%,-50%);
+    top: 50%;
+    left: 58%;
+    border-radius: 10px;
+    backdrop-filter: blur(10px);
+    border: 2px solid rgba(255,255,255,0.1);
+    box-shadow: 0 0 40px rgba(8,7,16,0.6);
+    padding: 10px 15px;
+}
+    
+        </style>
+<body>
+    <div id="sidebar">
+        <div id="togglebtn" onclick="togglesidebar()">
+          <span></span>
+          <span></span>
+          <span></span>
+      </div>
+         <ul>
+           <a href="/home"><li>Home </li></a>
+           <a href="/addstudent"><li>Add Student </li></a>
+           <a href="/addquestion"><li>Add Question</li></a>
+           <a href="/viewquestions"><li>View Questions </li></a>
+           <a href="/createquiz"><li>Create Quiz</li></a>
+           <a href="/checkmarks"><li>Check Results </li></a>
+          
+           <a href="/"><li>LogOut </li></a>
+      </ul>
+    </div>
+	<div id="mainclass">
+		<h1>Questions  </h1>
+		<table class="table ">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Question</th>
+                <th>Option A</th>
+                <th>Option B</th>
+                <th>Option C</th>
+                <th>Option D</th>
+                <th>Answer</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for question in questions %}
+              <tr>
+                <td>{{ question.0 }}</td>
+                <td>{{ question.1 }}</td>
+                <td>{{ question.2 }}</td>
+                <td>{{ question.3 }}</td>
+                <td>{{ question.4 }}</td>
+                <td>{{ question.5 }}</td>
+                <td>{{ question.6 }}</td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="7">No questions found.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+	</div>
+	<!-- Include jQuery and Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+<script>
+    function togglesidebar(){
+  document.getElementById("sidebar").classList.toggle("active");
+} 
+</script>
+</html>

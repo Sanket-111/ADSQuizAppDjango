@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/css/bootstrap.min.css"
+      integrity="sha512-QkJpMs/q4Zb4gnojOYcQ5zFjt5L5S9CjIgG/2vB8Wt/U36x/uD95fJ+YnyvMgxWt9RVrFJdLYtATC1lR8Rugw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <title>Quiz Results</title>
+    <style>
+        *{
+          padding:0;
+          margin:0;
+          font-family:arial;
+        }
+        body{
+          background-repeat: no-repeat;
+            background-color: aqua;
+          width: 100%;
+          height: auto;
+          background-attachment: fixed; 
+          background-size: cover;
+        }
+        #mainclass
+        {
+            height: 100%;
+            width: 80%;
+            background-color:whitesmoke;
+            position: absolute;
+            transform: translate(-50%,-50%);
+            top: 50%;
+            left: 55%;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255,255,255,0.1);
+            box-shadow: 0 0 40px rgba(8,7,16,0.6);
+            padding: 10px 15px;
+        }
+        #sidebar{
+          position:fixed;
+          width:200px;
+          height:100%;
+          background-color:black;
+          transition:.2s;
+          left:-200px;
+        }
+        #sidebar.active{
+          left:0px;
+        }
+        #sidebar ul li{
+        color: white;
+          font-size:16px;
+          padding:10px 5px;
+          border-bottom:1px solid #fff;
+        }
+         #sidebar ul li:hover{
+             background-color: rgba(230,230,230,.9);
+             color:white;
+        }
+        #sidebar #togglebtn {
+          position:absolute;
+          left:230px;
+          top:5px;
+          cursor:pointer
+        }
+        #sidebar #togglebtn span{
+          display:block;
+          background-color:#000;
+          width:30px;
+          height:5px;
+          margin:5px 0px;
+          
+        }
+        
+            </style>
+  </head>
+  <body>
+    <div id="sidebar">
+        <div id="togglebtn" onclick="togglesidebar()">
+          <span></span>
+          <span></span>
+          <span></span>
+      </div>
+         <ul>
+            <a href="/home"><li>Home </li></a>
+            <a href="/addstudent"><li>Add Student </li></a>
+            <a href="/addquestion"><li>Add Question</li></a>
+            <a href="/viewquestions"><li>View Questions </li></a>
+            <a href="/createquiz"><li>Create Quiz</li></a>
+            <a href="/checkmarks"><li>Check Results </li></a>
+           
+            <a href="/"><li>LogOut </li></a>
+      </ul>
+    </div>
+    <div id="mainclass">
+      <h1 class="text-center mt-4 mb-4">Quiz Results</h1>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Quiz Title</th>
+            <th>Student ID</th>
+            <th>Marks</th>
+          </tr>
+        </thead>
+        <tbody>
+            <tbody>
+                {% for result in records %}
+                <tr>
+                  <td>{{ result.0 }}</td>
+                  <td>{{ result.1 }}</td>
+                  <td>{{ result.2}}</td>
+                </tr>
+                {% endfor %}
+              </tbody>
+        </tbody>
+      </table>
+    </div>
+    <!-- Bootstrap JS -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.6.0/js/bootstrap.min.js"
+      integrity="sha512-nQ9ps16jzLkJJJrc67jBklwIdH8Rb/Ymsdz0jL4xX4i4NS0itCj0c/TgVItjtbS/+S7lHiz3qj3rc6SRfXcW5A=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+        function togglesidebar(){
+      document.getElementById("sidebar").classList.toggle("active");
+    } 
+    </script>
+  </body>
+
+</html>

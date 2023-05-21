@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Quiz Questions</title>
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	<style>
+		#timerdiv {
+			position: fixed;
+			top: 0;
+			left: 90%;
+			padding: 10px;
+			background-color: #fff;
+			border: 1px solid #000;
+			font-weight: bold;
+		}
+	</style>
+</head>
+<body>
+
+<div class="container mt-5">
+	<div class="container mt-5">
+		<h2 class="text-center mb-5">Quiz Titile : {{quiz_name}}</h2>
+	<h2 class="text-center mb-5">Quiz Questions</h2>
+	<h5><i>Note : Each Question Carry 2 marks . </i></h5>
+	<form method="POST" action="" id='myForm'>
+		{% csrf_token %}
+		<div id="timerdiv">
+			Time Remaining
+			<span id="timer">10:00</span>
+		</div>
+		
+		{% for question in questions %}
+		<div class="card mb-3">
+			<div class="card-header">Question {{ question.0 }}</div>
+			
+			<div class="card-body">
+				<h5 class="card-title">{{ question.1 }}</h5>
+				<input type="hidden" id="answer" name="answer" value="{{question.6}}">
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="{{ question.0 }}" id="answerA{{ question.0 }}" value="{{question.2}}">
+					<input type="hidden" id="optionA" name="optionA" value="{{question.2}}">
+					<label class="form-check-label" for="answerA{{ question.2 }}">
+						{{ question.2 }}
+					</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="{{ question.0 }}" id="answerB{{ question.0 }}" value="{{question.3}}">
+					<input type="hidden" id="optionB" name="optionB" value="{{question.3}}">
+					<label class="form-check-label" for="answerB{{ question.3 }}">
+						{{ question.3 }}
+					</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="{{ question.0}}" id="answerC{{ question.0 }}" value="{{question.4}}">
+					<input type="hidden" id="optionC" name="optionC" value="{{question.4}}">
+					<label class="form-check-label" for="answerC{{ question.4 }}">
+						{{ question.4 }}
+					</label>
+				</div>
+				<div class="form-check">
+					<input class="form-check-input" type="radio" name="{{ question.0 }}" id="answerD{{ question.0 }}" value="{{question.5}}">
+					<input type="hidden" id="optionD" name="optionD" value="{{question.5}}">
+					<label class="form-check-label" for="answerD{{ question.5 }}">
+						{{ question.5 }}
+					</label>
+				</div>
+			</div>
+			<div>
+			
+			<center><button id='{{question.0}}' class='unliked' onclick="SelectedAns('{{question.0}}','{{question.6}}',0,0)" type="button">Save Answer </button><br>
+			</center>
+				</div>
+				  <style>
+					.liked{
+						width:auto;
+            		height:30px;
+            		color:black;
+            		background-color:gray;
+            		border-radius: 10px;     
+            		font-size:16px;
+            		cursor: pointer;
+					}
+					.unliked {
+            		width:auto;
+            		height:30px;
+            		color:black;
+            		background-color:red;
+            		border-radius: 10px;     
+            		font-size:16px;
+            		cursor: pointer;
+            
+          }
+				</style>
+				<br>
+			</div>
+			<br>
+		{% endfor %}
+		<input type="hidden" name="title" id="title" value="{{quiz_name}}">
+		<input type="hidden" name="score" id="score">
+		<button type="button" class="btn-primary" onclick="showSelectedOption()"> Finish Quiz</button><br><br>
+	</form>
+</div>
+
+<!-- jQuery library -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- Bootstrap JS -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+	// Set the time limit to 10 minutes (in seconds)
+const timeLimit = 10 * 60;
+
+// Get the timer element
+const timerElement = document.getElementById('timer');
+
+// Update the timer every second
+let remainingTime = timeLimit;
+let timerInterval = setInterval(() => {
+  // Calculate the minutes and seconds
+  const minutes = Math.floor(remainingTime / 60).toString().padStart(2, '0');
+  const seconds = (remainingTime % 60).toString().padStart(2, '0');
+
+  // Update the timer element
+  timerElement.textContent = `${minutes}:${seconds}`;
+
+  // Check if time is up
+  if (remainingTime <= 0) {
+    // Stop the timer
+    clearInterval(timerInterval);
+
+    // Click the Finish Quiz button
+    showSelectedOption();
+  }
+
+  // Decrease the remaining time by 1 second
+  remainingTime--;
+}, 1000);
+
+	var marks=0;
+	function SelectedAns(id1,id2)   
+  {  
+
+	const selectedColor = document.querySelector('input[name="' + id1 + '"]:checked');
+    if (!selectedColor) {
+        alert('Please Select Option ');
+        return;
+    }
+    const selectedValue = selectedColor.value;
+   const curr =  document.getElementById(id1);
+      if(curr.classList.contains('unliked')){
+        curr.classList.add('liked');
+        curr.classList.remove('unliked');
+		curr.innerHTML = "Saved !";
+		curr.disabled = true;
+	}
+	const radioButtons = document.querySelectorAll('input[name="' + id1 + '"]');
+    radioButtons.forEach(radioButton => {
+      radioButton.disabled = true;
+    });
+	console.log(selectedValue,id2)
+	if(selectedValue == id2)
+	{
+		marks+=2;
+		console.log(marks)
+	}
+  	
+  }
+  function showSelectedOption() 
+  {    clearInterval(timerInterval);
+	document.getElementById("score").value=marks 
+    document.getElementById('myForm').submit();
+  }
+  
+
+
+</script>
+</body>
+</html>
